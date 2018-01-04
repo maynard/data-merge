@@ -15,6 +15,12 @@
                 controllerAs: 'vm'
             })
 
+            .when('/h2', {
+                controller: 'Home2Controller',
+                templateUrl: 'home2/home2.view.html',
+                controllerAs: 'vm'
+            })
+
             .when('/login', {
                 controller: 'LoginController',
                 templateUrl: 'login/login.view.html',
@@ -28,9 +34,24 @@
             })
 
             .when('/define-master', {
-                controller: 'DefineMasterController',
-                templateUrl: 'define-master/define-master.view.html',
-                controllerAs: 'vm'
+                templateUrl: 'definemaster/define.master.view.html',
+                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+
+                    var vm = this;
+
+                    initController();
+
+                    function initController() {
+                        loadCurrentUser();
+                    }
+                    function loadCurrentUser() {
+                        UserService.GetByUsername($rootScope.globals.currentUser.username)
+                            .then(function (user) {
+                                vm.user = user;
+                            });
+                    }
+
+                }]
             })
 
             .otherwise({ redirectTo: '/login' });
