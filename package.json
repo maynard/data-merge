@@ -1,0 +1,19 @@
+{
+  "name": "datbeco-data-merge",
+  "version": "1.0.0",
+  "description": "Merges multiple databases into one master searchable database",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maynard/data-merge.git"
+  },
+  "author": "Maynard Black",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maynard/data-merge/issues"
+  },
+  "homepage": "https://github.com/maynard/data-merge#readme"
+}
