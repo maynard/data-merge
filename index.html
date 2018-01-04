@@ -5,6 +5,31 @@
     <title>Datbeco Data Merge Tool</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
     <link href="app-content/app.css" rel="stylesheet" />
+
+    <style>
+        #div1 {
+            width: 350px;
+            height: 70px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+    </style>
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+
 </head>
 <body>
 
@@ -18,26 +43,29 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand logo" href="#/" onclick="window.location.reload(true)">Datbeco Data Merge Tool  </a>
+            <a class="active navbar-brand logo" href="#/" onclick="window.location.reload(true)">Datbeco Data Merge Tool  </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 
             <ul class="nav navbar-nav">
-                <li ng-if="true" class="active"><a href="#!/define-master">Define Master DB</a></li>
+                <li ng-if="true" ng-class="{active: isActive('define-master')}" ><a href="#!/define-master">Define Master DB</a></li>
             </ul>
 
 
             <ul class="nav navbar-nav">
-                <li ng-if="true" class="createadmin"><a href="#!/h2">Home 2</a></li>
+                <li ng-if="true" ng-class="{active: isActive('import-data')}"><a href="#!/import-data">Import Data</a></li>
             </ul>
 
             <ul class="nav navbar-nav">
-                <li ng-if="true" class="invite"><a href="#!/invite">Link Three</a></li>
+                <li ng-if="true" ng-class="{active: isActive('map-data')}"><a href="#!/map-data">Map Data</a></li>
             </ul>
 
+            <ul class="nav navbar-nav">
+                <li ng-if="true" ng-class="{active: isActive('query-data')}"><a href="#!/query-data">Query Data</a></li>
+            </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li ng-if="true">{{vm.user.firstName}}</li>
+                <li ng-if="true">{{user.firstName}}</li>
 
                 <li ng-if="true"><a href="#!/login"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> Logout</a></li>
             </ul>

@@ -54,6 +54,48 @@
                 }]
             })
 
+            .when('/define-master', {
+                templateUrl: 'definemaster/define.master.view.html',
+                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+
+                }]
+            })
+
+            .when('/map-data', {
+                templateUrl: 'map-data/map.data.view.html',
+                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+
+                }]
+            })
+
+            .when('/query-data', {
+                templateUrl: 'query-data/query.data.view.html',
+                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+
+                }]
+            })
+
+            .when('/import-data', {
+                templateUrl: 'import-data/import.data.view.html',
+                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+
+                    var vm = this;
+
+                    initController();
+
+                    function initController() {
+                        loadCurrentUser();
+                    }
+                    function loadCurrentUser() {
+                        UserService.GetByUsername($rootScope.globals.currentUser.username)
+                            .then(function (user) {
+                                vm.user = user;
+                            });
+                    }
+
+                }]
+            })
+
             .otherwise({ redirectTo: '/login' });
     }
 
