@@ -27,6 +27,12 @@
                 controllerAs: 'vm'
             })
 
+            .when('/define-master', {
+                controller: 'DefineMasterController',
+                templateUrl: 'define-master/define-master.view.html',
+                controllerAs: 'vm'
+            })
+
             .otherwise({ redirectTo: '/login' });
     }
 
