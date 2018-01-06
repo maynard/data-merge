@@ -33,31 +33,18 @@
                 controllerAs: 'vm'
             })
 
-            .when('/define-master', {
+            .when('/define-master2', {
+                controller: 'DefinemasterController',
                 templateUrl: 'definemaster/define.master.view.html',
-                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+                controllerAs: 'vm'
 
-                    var vm = this;
-
-                    initController();
-
-                    function initController() {
-                        loadCurrentUser();
-                    }
-                    function loadCurrentUser() {
-                        UserService.GetByUsername($rootScope.globals.currentUser.username)
-                            .then(function (user) {
-                                vm.user = user;
-                            });
-                    }
-
-                }]
             })
 
+
             .when('/define-master', {
                 templateUrl: 'definemaster/define.master.view.html',
                 controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
-
+                    console.log('IN DEFINE MASTER');
                 }]
             })
 
@@ -77,20 +64,33 @@
 
             .when('/import-data', {
                 templateUrl: 'import-data/import.data.view.html',
-                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+                controller: ['$scope', '$http', '$rootScope', 'UserService', function($scope, $http, $rootScope, UserService) {
 
-                    var vm = this;
+                    $scope.submitFile = function(){
+                        //console.log($scope.fileURL);
+                        //console.log($scope.dbName);
+                        //console.log($scope.delimiter[0]);
+                        //console.log($rootScope.globals.currentUser.username);
 
-                    initController();
+                        var data = {};
+                        data.fileUrl = $scope.fileURL;
+                        data.table = $scope.dbName;
+                        data.delimiter = $scope.delimiter[0];
+                        data.username = $rootScope.globals.currentUser.username;
+                        data = JSON.stringify(data);
 
-                    function initController() {
-                        loadCurrentUser();
-                    }
-                    function loadCurrentUser() {
-                        UserService.GetByUsername($rootScope.globals.currentUser.username)
-                            .then(function (user) {
-                                vm.user = user;
-                            });
+                        console.log(data);
+
+                        var url = 'http://localhost:1337/transfer';
+
+                        $http.post(url, data, config).then(function (response) {
+                            // This function handles success
+                            console.error(response);
+                        }, function (response) {
+                            // this function handles error
+                            console.error(response);
+                        });
+
                     }
 
                 }]

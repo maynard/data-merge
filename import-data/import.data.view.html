@@ -5,17 +5,40 @@
         <div class="panel-heading">Upload CSV File</div>
         <div class="panel-body">
 
-            <form action='http://localhost:1337/transfer'
-                  method='post'>
 
-                <div class="row">
-                File URL:  <input type="text" name="fileUrl" width="180px">
+
+            <form name="dataForm">
+
+                <div class="form-group">
+                    <label for="fileURL">File URL</label>
+                    <input ng-model="fileURL" type="test" class="form-control" id="fileUrl" aria-describedby="fileURLHelp" placeholder="Enter CSV file URL" required>
+                    <small id="fileURLHelp" class="form-text text-muted">Most CSV files are too big to upload, please provide a URL to the file.</small>
                 </div>
-                <div class="row">
-                    <input type="submit" name ="Submit">
+
+                <div class="form-group">
+                    <label for="dbName">Database Name</label>
+                    <input ng-model="dbName" type="text" class="form-control" id="dbName" placeholder="Dadabase Name" required>
+                    <small id="dbNameHelp" class="form-text text-muted">Only alpha numeric, no special characters. Use underscores instead of dashes.</small>
                 </div>
+
+                <div class="form-group">
+                    <label for="delimiter">Delimiter</label>
+                    <select ng-model="delimiter" multiple class="form-control" id="delimiter" required>
+                        <option>Tab</option>
+                        <option>Comma</option>
+                        <option>Semi-Colon</option>
+                    </select>
+                    <small id="delimiterHelp" class="form-text text-muted">Please specify what character seperates the data.</small>
+                </div>
+
+                <p>
+                    <input type="submit"
+                           ng-click="submitFile()"
+                           ng-disabled="dataForm.fileURL.$dirty && dataForm.dbName.$invalid || myForm.delimiter.$dirty">
+                </p>
 
             </form>
+
 
         </div>
     </div>
