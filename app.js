@@ -33,6 +33,40 @@
                 controllerAs: 'vm'
             })
 
+            .when('/edit', {
+                templateUrl: 'edit-user/edit.user.view.html',
+                controllerAs: 'vm',
+                controller: ['$scope', '$http', '$rootScope', 'FlashService', 'UserService', function($scope, $http, $rootScope, FlashService, UserService) {
+
+                    UserService.GetByUsername($rootScope.globals.currentUser.username)
+                        .then(function (response) {
+                            console.log('============ ' + response.first_name);
+
+                            $scope.firstName = response.first_name;
+                            $scope.lastName = response.last_name;
+                            $scope.email = response.email;
+                            $scope.username = response.username;
+                            $scope.password = response.password;
+                        });
+                    $scope.edit = function() {
+                        console.log('Editing profile...');
+
+                        var body = {};
+                        body.firstName = $scope.firstName;
+                        body.lastName = $scope.lastName;
+                        body.email = $scope.email;
+                        body.username = $scope.username;
+                        body.password = $scope.password;
+
+                        UserService.Update(body)
+                            .then(function (response) {
+                                FlashService.Success('Profile edit successful', true);
+                            });
+                    }
+
+                }]
+            })
+
             .when('/define-master', {
                 templateUrl: 'definemaster/define.master.view.html',
                 controller: ['$scope', '$http', '$rootScope', 'UserService', function($scope, $http, $rootScope, UserService) {
@@ -84,6 +118,29 @@
             .when('/query-data', {
                 templateUrl: 'query-data/query.data.view.html',
                 controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+                    $scope.choiceSet = {choices: []};
+                    $scope.quest = {};
+
+                    $scope.choiceSet.choices = [];
+                    $scope.addNewChoice = function () {
+                        $scope.choiceSet.choices.push('');
+                    };
+
+                    $scope.removeChoice = function (z) {
+                        //var lastItem = $scope.choiceSet.choices.length - 1;
+                        $scope.choiceSet.choices.splice(z,1);
+                    };
+
+                    $scope.showAdvanced = false;
+                    $scope.showSimple = true;
+
+                    $scope.toggleAdvanced = function(){
+                        $scope.showAdvanced = !$scope.showAdvanced;
+                        $scope.showSimple = !$scope.showSimple;
+                    }
+
+
+
 
                 }]
             })
