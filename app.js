@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngCookies'])
+        .module('app', ['ngRoute', 'ngCookies', 'angular-uuid'])
         .config(config)
         .run(run);
 
@@ -33,18 +33,44 @@
                 controllerAs: 'vm'
             })
 
-            .when('/define-master2', {
-                controller: 'DefinemasterController',
-                templateUrl: 'definemaster/define.master.view.html',
-                controllerAs: 'vm'
-
-            })
-
-
             .when('/define-master', {
                 templateUrl: 'definemaster/define.master.view.html',
-                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
-                    console.log('IN DEFINE MASTER');
+                controller: ['$scope', '$http', '$rootScope', 'UserService', function($scope, $http, $rootScope, UserService) {
+
+                    $scope.choiceSet = {choices: []};
+                    $scope.quest = {};
+
+                    $scope.choiceSet.choices = [];
+                    $scope.addNewChoice = function () {
+                        $scope.choiceSet.choices.push('');
+                    };
+
+                    $scope.removeChoice = function (z) {
+                        //var lastItem = $scope.choiceSet.choices.length - 1;
+                        $scope.choiceSet.choices.splice(z,1);
+                    };
+
+
+                    $scope.submitForm = function() {
+
+                        console.dir($scope.choiceSet.choices);
+
+                        var data = {};
+                        data.choices = $scope.choiceSet.choices;
+                        data.username = $rootScope.globals.currentUser.username;
+
+                        var url = 'http://localhost:1337/master';
+
+                        $http.post(url, data, config).then(function (response) {
+                            // This function handles success
+                            console.error(response);
+                        }, function (response) {
+                            // this function handles error
+                            console.error(response);
+                        });
+
+                    }
+
                 }]
             })
 

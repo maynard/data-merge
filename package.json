@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/maynard/data-merge/issues"
   },
-  "homepage": "https://github.com/maynard/data-merge#readme"
+  "homepage": "https://github.com/maynard/data-merge#readme",
+  "dependencies": {
+    "angular-uuid": "0.0.4"
+  }
 }

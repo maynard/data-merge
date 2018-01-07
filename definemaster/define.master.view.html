@@ -5,7 +5,45 @@
         <div class="panel-heading">Define Master Database</div>
         <div class="panel-body">
 
-            [define db]
+
+
+            <form name="dataForm">
+
+
+                <div class="form-group">
+                    <p>Master Database - Define your fields</p>
+                    <h5>Use only alpha-numeric only, no special characters. Use underscore for spaces.</h5>
+                </div>
+
+
+                <div class="form-group">
+
+                    <div>
+                        <fieldset data-ng-repeat="field in choiceSet.choices track by $index">
+
+
+                            <input type="text" ng-model=" choiceSet.choices[$index]" required></input>
+                            <button type="button" class="btn btn-default btn-sm" ng-click="removeChoice($index)">
+                                <span class="glyphicon glyphicon-minus"></span> REMOVE
+                            </button>
+
+                        </fieldset>
+                    </div>
+
+                    <div>
+                        <input type="button" class="btn btn-primary" ng-click="addNewChoice()" value="ADD FIELD">
+                    </div>
+                </div>
+
+                <BR><BR>
+                <p>
+                    <input type="submit" class="btn btn-primary"
+                           ng-click="submitForm()"
+                           ng-disabled="dataForm.fileURL.$dirty && dataForm.dbName.$invalid || myForm.delimiter.$dirty">
+                </p>
+
+            </form>
+
 
         </div>
     </div>

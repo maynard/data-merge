@@ -17,12 +17,11 @@
 
         function Login(username, password, callback) {
 
-            /* Dummy authentication for testing, uses $timeout to simulate api call
-             ----------------------------------------------*/
-            $timeout(function () {
                 var response;
                 UserService.GetByUsername(username)
                     .then(function (user) {
+                        $rootScope.globals.currentUser = user;
+
                         if (user !== null && user.password === password) {
                             response = { success: true };
                         } else {
@@ -30,7 +29,7 @@
                         }
                         callback(response);
                     });
-            }, 1000);
+
 
             /* Use this for real authentication
              ----------------------------------------------*/
