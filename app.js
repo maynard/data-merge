@@ -9,15 +9,16 @@
     config.$inject = ['$routeProvider', '$locationProvider'];
     function config($routeProvider, $locationProvider) {
         $routeProvider
+
             .when('/', {
                 controller: 'HomeController',
                 templateUrl: 'home/home.view.html',
                 controllerAs: 'vm'
             })
 
-            .when('/h2', {
-                controller: 'Home2Controller',
-                templateUrl: 'home2/home2.view.html',
+            .when('/connect', {
+                controller: 'ConnectController',
+                templateUrl: 'app-views/connect.view.html',
                 controllerAs: 'vm'
             })
 
@@ -69,7 +70,7 @@
 
             .when('/define-master', {
                 templateUrl: 'definemaster/define.master.view.html',
-                controller: ['$scope', '$http', '$rootScope', 'UserService', function($scope, $http, $rootScope, UserService) {
+                controller: ['$scope', '$http', '$rootScope', '$location', '$window', 'UserService', function($scope, $http, $rootScope, location, window, UserService) {
 
                     $scope.choiceSet = {choices: []};
                     $scope.quest = {};
@@ -85,23 +86,34 @@
                     };
 
 
+                    var url = 'http://localhost:1337/master/fields/' + $rootScope.globals.currentUser.username;
+                    $http.get(url).then(function (response) {
+                        $scope.fields = response.data;
+                    }, function (response) {
+                        console.error(response);
+                    });
+
+
+                    $scope.deleteFld = function(fld) {
+                        var url = 'http://localhost:1337/master/'+ $rootScope.globals.currentUser.username +'?field_name=' + fld;
+                        $http.delete(url).then(function (response) {
+                        }, function (response) {
+                            console.log(response);
+                        });
+                        window.location.reload();
+                    };
+
                     $scope.submitForm = function() {
-
-                        console.dir($scope.choiceSet.choices);
-
                         var data = {};
                         data.choices = $scope.choiceSet.choices;
                         data.username = $rootScope.globals.currentUser.username;
-
                         var url = 'http://localhost:1337/master';
-
                         $http.post(url, data, config).then(function (response) {
-                            // This function handles success
-                            console.error(response);
                         }, function (response) {
-                            // this function handles error
-                            console.error(response);
+                            console.log(response);
                         });
+                        //window.location.reload();
+                        location.path('/map-data');
 
                     }
 
@@ -109,45 +121,33 @@
             })
 
             .when('/map-data', {
-                templateUrl: 'map-data/map.data.view.html',
-                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
+                controller: 'MapController',
+                templateUrl: 'app-views/map.data.view.html',
+                controllerAs: 'vm'
+            })
+
+            .when('/view-result', {
+                templateUrl: 'view-result/view.result.html',
+                controller: ['$scope', '$http', '$rootScope', 'FlashService', 'UserService', function($scope, $http, $rootScope, FlashService, UserService) {
+
+                    //var randomObject = {"id":352,"first_name":"Audrey","last_name":"Wroughton","email":"awroughton9r@paginegialle.it","gender":"Female"};
+                    var randomObject = $rootScope.result;
+                    randomObject.circularRef = randomObject;
+                    var ppTable = prettyPrint(randomObject);
+                    document.getElementById('debug').appendChild(ppTable);
 
                 }]
             })
 
             .when('/query-data', {
-                templateUrl: 'query-data/query.data.view.html',
-                controller: ['$scope', '$rootScope', 'UserService', function($scope, $rootScope, UserService) {
-                    $scope.choiceSet = {choices: []};
-                    $scope.quest = {};
-
-                    $scope.choiceSet.choices = [];
-                    $scope.addNewChoice = function () {
-                        $scope.choiceSet.choices.push('');
-                    };
-
-                    $scope.removeChoice = function (z) {
-                        //var lastItem = $scope.choiceSet.choices.length - 1;
-                        $scope.choiceSet.choices.splice(z,1);
-                    };
-
-                    $scope.showAdvanced = false;
-                    $scope.showSimple = true;
-
-                    $scope.toggleAdvanced = function(){
-                        $scope.showAdvanced = !$scope.showAdvanced;
-                        $scope.showSimple = !$scope.showSimple;
-                    }
-
-
-
-
-                }]
+                controller: 'QueryController',
+                templateUrl: 'app-views/query.data.view.html',
+                controllerAs: 'vm'
             })
 
             .when('/import-data', {
                 templateUrl: 'import-data/import.data.view.html',
-                controller: ['$scope', '$http', '$rootScope', 'UserService', function($scope, $http, $rootScope, UserService) {
+                controller: ['$scope', '$http', '$rootScope', 'FlashService', 'UserService', function($scope, $http, $rootScope, FlashService, UserService) {
 
                     $scope.submitFile = function(){
                         //console.log($scope.fileURL);
@@ -168,10 +168,11 @@
 
                         $http.post(url, data, config).then(function (response) {
                             // This function handles success
-                            console.error(response);
+                            console.log(response);
                         }, function (response) {
                             // this function handles error
                             console.error(response);
+                            FlashService.Error('This file has already been imported.');
                         });
 
                     }

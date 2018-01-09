@@ -1,20 +1,70 @@
 ﻿<!DOCTYPE html>
 <html ng-app="app">
-<head>
+
     <meta charset="utf-8" />
     <title>Datbeco Data Merge Tool</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
-    <link href="app-content/app.css" rel="stylesheet" />
 
+    <link href="app-content/app.css" rel="stylesheet" />
+    <script src="prettyprint.js"></script>
+
+    <!-- footer style -->
+    <style>
+
+        /* Sticky footer styles
+-------------------------------------------------- */
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+        }
+        #footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: black;
+        }
+
+
+        /* Custom page CSS
+        -------------------------------------------------- */
+        /* Not required for template or sticky footer method. */
+
+
+        .container .text-muted {
+            margin: 20px 0;
+            text-align: center;
+            color: white;
+        }
+
+        #footer > .container {
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        code {
+            font-size: 80%;
+        }
+
+    </style>
+
+    <!-- style for drag -->
     <style>
         #div1 {
-            width: 350px;
-            height: 60px;
-            padding: 10px;
+            width: 100%;
+            height: 100px;
+            padding: 5px;
             border: 1px solid #aaaaaa;
             margin-bottom: 6px;
+            line-height: 300px;
         }
     </style>
+
+    <!-- drag script -->
     <script>
         function allowDrop(ev) {
             ev.preventDefault();
@@ -35,6 +85,7 @@
 <body>
 
 
+
 <nav class="navbar navbar-inverse bg-faded navbar-static-top ">
     <div class="container">
         <div class="navbar-header">
@@ -52,13 +103,12 @@
                 <li ng-if="true" ng-class="{active: isActive('define-master')}" ><a href="#!/define-master">Define Master DB</a></li>
             </ul>
 
-
             <ul class="nav navbar-nav">
-                <li ng-if="true" ng-class="{active: isActive('import-data')}"><a href="#!/import-data">Import Data</a></li>
+                <li ng-if="true" ng-class="{active: isActive('map-data')}"><a href="#!/map-data">Map Data</a></li>
             </ul>
 
             <ul class="nav navbar-nav">
-                <li ng-if="true" ng-class="{active: isActive('map-data')}"><a href="#!/map-data">Map Data</a></li>
+                <li ng-if="true" ng-class="{active: isActive('import-data')}"><a href="#!/import-data">Import Data</a></li>
             </ul>
 
             <ul class="nav navbar-nav">
@@ -67,6 +117,10 @@
 
             <ul class="nav navbar-nav">
                 <li ng-if="true" ng-class="{active: isActive('edit')}"><a href="#!/edit">Edit Profile</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav">
+                <li ng-if="true" ng-class="{active: isActive('connect')}"><a href="#!/connect">Connect</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -80,21 +134,17 @@
 
 
 
-    <div class="jumbotron">
         <div class="container">
-            <div class="col-sm-8 col-sm-offset-2">
+            <div class="col-sm-12">
                 <div ng-class="{ 'alert': flash, 'alert-success': flash.type === 'success', 'alert-danger': flash.type === 'error' }" ng-if="flash" ng-bind="flash.message"></div>
                 <div ng-view></div>
             </div>
         </div>
-    </div>
-    <div class="credits text-center">
-        <p>
-            Datbeco Data Merge Tool
-        </p>
-    </div>
 
-    <script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+
+
+
+<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="//code.angularjs.org/1.6.0/angular.min.js"></script>
     <script src="//code.angularjs.org/1.6.0/angular-route.min.js"></script>
     <script src="//code.angularjs.org/1.6.0/angular-cookies.min.js"></script>
@@ -111,8 +161,20 @@
     <!-- Fake user service for demo that uses local storage -->
     <!-- <script src="app-services/user.service.local-storage.js"></script> -->
 
-<script src="home/home.controller.js"></script>
-<script src="login/login.controller.js"></script>
+
 <script src="register/register.controller.js"></script>
+<script src="login/login.controller.js"></script>
+<script src="home/home.controller.js"></script>
+<script src="app-controllers/map.data.controller.js"></script>
+<script src="app-controllers/connect.controller.js"></script>
+<script src="app-controllers/query.data.controller.js"></script>
+
+
+
+<div id="footer">
+    <div class="container">
+        <p class="text-muted">Database Merge tool.</p>
+    </div>
+</div>
 </body>
 </html>

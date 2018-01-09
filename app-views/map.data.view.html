@@ -1,0 +1,67 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">Map imported fields to your master fields</div>
+    <div class="panel-body">
+
+        <div style="border-bottom: 1px solid #aaaaaa; margin-bottom: 0px;">
+            <div class="row">
+                <div class="col-md-3" style="border-right: 1px solid #aaaaaa;">
+                    <h5>Databases</h5>
+                </div>
+                <div class="col-md-5"  style="border-right: 1px solid #aaaaaa;">
+                    <h5>Map Field to a master field</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5>Master field collections</h5>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+
+                <div data-ng-repeat="db in tables">
+                    <div>
+                        <h5><a href ng-click="selectTableFields(db)">{{db}}</a></h5>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-5" style="border-right: 1px solid #aaaaaa; border-left: 1px solid #aaaaaa;">
+                <div class="form-group" ng-repeat="tableFld in tableFields">
+                    <form name="form" ng-submit="mapField(tableFld)" role="form">
+                        <div>
+                            {{tableFld}}
+                        </div>
+                        <div>
+                            <!--ng-change="selectChange(fld.field_name)"
+                            <select
+                                    ng-options="fld.field_name for fld in fieldsJson"
+                                    ng-model="selectedItem" class="form-control form-control input-sm">
+                            </select>
+                            -->
+                            <select id="sel"  ng-model="selectedItem" class="form-control input-sm">
+                                <option ng-repeat="flds in fieldsJson" ng-selected="selectedItem == flds.__Id" value="{{flds.__id}}">{{flds.field_name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-actions">
+                            <button input-lg type="submit" ng-disabled="form.$invalid || vm.dataLoading"
+                                    class="btn btn-primary form-control input-sm">Map this field
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="row" ng-repeat="fld in masterAlias track by $index">
+                    <div style="padding-left: 14px">
+                        <h5><b>{{fld.master}}</b></h5>
+                    </div>
+                    <!-- aliases go here -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

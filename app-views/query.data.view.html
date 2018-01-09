@@ -8,13 +8,17 @@
 
                     <div class="col-md-6">
                         <fieldset>
-                            <input type="text" ng-model="simple" class="form-control" id="simple">
+                            <input id="input-search" class="form-control input-sm" name="mysearch" ng-keyup="enter($event)" placeholder="Search">
+                            </input>
                         </fieldset>
                     </div>
 
+                    <div class="col-md-2">
+                        {{term}}
+                    </div>
 
                     <div class="col-md-2">
-                        <input type="button" class="btn btn-primary" ng-click="addNewChoice()" value="Search">
+                        <input type="button" class="btn btn-primary input-sm" ng-click="addNewChoice()" value="Search">
                     </div>
 
                     <div class="col-md-4">
@@ -27,6 +31,20 @@
         </div>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+
+            <div ng-repeat="result in searchResults">
+                <p><a href ng-click="viewResult(result)"><h5>{{result}}</h5></a></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <div class="row" ng-if="showAdvanced">
     <div class="panel panel-primary">
