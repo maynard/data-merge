@@ -1,3 +1,28 @@
+
+<style>
+    .change-color {
+        transition: 0.4s all;
+    }
+    .change-color:hover, .change-color:focus, .change-color:active {
+        color: #fff;
+        background-color: #aaaaaa;
+        cursor: pointer;
+    }
+
+    .fld {
+        padding-left: 9px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+    .fldChoicesContainer {
+        border: 1px solid #aaaaaa;
+        margin: 0px;
+        padding: 0px;
+    }
+
+</style>
+
+
 <div class="row" ng-if="showSimple">
     <div class="panel panel-primary">
         <div class="panel-heading">Simple Query</div>
@@ -32,8 +57,7 @@
     </div>
 </div>
 
-
-<div class="row">
+<div class="row" ng-if="showSimple">
     <div class="panel panel-primary">
         <div class="panel-body">
 
@@ -45,7 +69,6 @@
     </div>
 </div>
 
-
 <div class="row" ng-if="showAdvanced">
     <div class="panel panel-primary">
         <div class="panel-heading">Advanced Query</div>
@@ -56,22 +79,23 @@
 
                     <div>
                         <fieldset data-ng-repeat="field in choiceSet.choices track by $index">
-
                             <BR>
-
                             <div class="col-md-5">
-                                <label for="sel1">Select field:</label>
-                                <select class="form-control" ng-model=" choiceSet1.choices[$index]" id="sel1">
-                                    <option>First Name</option>
-                                    <option>Middle Name</option>
-                                    <option>Last Name</option>
-                                    <option>Email</option>
-                                </select>
+                                <label for="selFld">Select field:</label>
+                                <input id="selFld" class="form-control input-sm" data-ng-model="choiceSet1.choices[$index]" ng-keyup="fldKeyed($event)">
+
+                                <div ng-show="fldResults" ng-repeat="fld in fldResults" class="fldChoicesContainer">
+                                    <div ng-show="fldResults" href ng-click="selectFld(fld, choiceSet1.choices[$index])" ng-repeat="fld in fldResults">
+                                        <div class="fld change-color" ng-mouseover="hoverActive=true" ng-mouseleave="hoverActive=false" ng-style="hoverActive ? {'background-color':social.color} : {}">
+                                            <p><h5>{{fld}}</h5></p>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-2">
                                 <label for="sel2">Where field:</label>
-                                <select class="form-control" ng-model=" choiceSet2.choices[$index]" id="sel2">
+                                <select class="form-control input-sm" ng-model="choiceSet2.choices[$index]" id="sel2">
                                     <option>Equals</option>
                                     <option>Is Like</option>
                                 </select>
@@ -79,7 +103,7 @@
 
                             <div class="col-md-5">
                                 <label for="searchPhrase">Search Phrase:</label>
-                                <input class="form-control" type="text" ng-model=" choiceSet3.choices[$index]"
+                                <input class="form-control input-sm" type="text" ng-model=" choiceSet3.choices[$index]"
                                        id="searchPhrase" required></input>
                             </div>
 
@@ -87,16 +111,17 @@
                         </fieldset>
                     </div>
 
+
                     <BR>
                     <div>
-                        <input type="button" class="btn btn-primary" ng-click="addNewChoice()"
-                               value="Add search parameter">
+                        <input type="button" class="btn btn-primary" ng-click="addNewChoice()" value="Add search parameter">
 
                         <button type="button" class="btn btn-default btn-sm" ng-click="removeChoice($index)">
                             <span class="glyphicon glyphicon-minus"></span> REMOVE
                         </button>
 
                     </div>
+
                 </div>
 
                 <BR>

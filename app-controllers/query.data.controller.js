@@ -5,8 +5,8 @@
         .module('app')
         .controller('QueryController', QueryController);
 
-    QueryController.$inject = ['$scope', '$http', '$rootScope', '$location', '$window', 'UserService'];
-    function QueryController($scope, $http, $rootScope, location, window, UserService) {
+    QueryController.$inject = ['$scope', '$document', '$http', '$rootScope', '$location', '$window', 'UserService'];
+    function QueryController($scope, document, $http, $rootScope, location, window, UserService) {
         var vm = this;
 
         $scope.choiceSet = {choices: []};
@@ -22,8 +22,15 @@
             $scope.choiceSet.choices.splice(z,1);
         };
 
-        $scope.showAdvanced = false;
-        $scope.showSimple = true;
+        $scope.selectFld = function(val) {
+            console.log('val= ' + val)
+            $scope.fldVal = val;
+            $scope.fldResults = "";
+        };
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+        $scope.showAdvanced = true;
+        $scope.showSimple = false;
 
         $scope.toggleAdvanced = function(){
             $scope.showAdvanced = !$scope.showAdvanced;
@@ -55,23 +62,21 @@
 
         };
 
-        $scope.query = function() {
+        $scope.fldKeyed = function(e) {
 
+            //console.dir(e.originalEvent.path[0].value);
             var body = {};
-            body.term = angular.element('#search').value;
-            console.log('TERM: ' + $scope.term);
+            body.term = e.originalEvent.path[0].value;
 
-            var url = 'http://localhost:1337/search/' + $rootScope.globals.currentUser.username;
+            var url = 'http://localhost:1337/search/fields/' + $rootScope.globals.currentUser.username;
             $http.post(url, body).then(function (response) {
-                $scope.searchResults = response.data;
+                console.log(response.data);
+                $scope.fldResults = response.data;
             }, function (response) {
                 console.error(response);
             });
 
-
-        }
-
-
+        };
 
     }
 
