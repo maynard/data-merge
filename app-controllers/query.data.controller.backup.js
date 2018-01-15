@@ -30,7 +30,7 @@
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
         $scope.showAdvanced = true;
-        $scope.showSimple = true;
+        $scope.showSimple = false;
 
         $scope.toggleAdvanced = function(){
             $scope.showAdvanced = !$scope.showAdvanced;
@@ -54,7 +54,7 @@
 
             var url = 'http://localhost:1337/search/' + $rootScope.globals.currentUser.username;
             $http.post(url, body).then(function (response) {
-                console.log(response)
+                console.dir(response)
                 $scope.searchResults = response.data;
             }, function (response) {
                 console.error(response);

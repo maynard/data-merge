@@ -18,7 +18,7 @@
 
         $scope.selectTableFields = function (table) {
             $rootScope.currentDb = table;
-            var url = 'http://localhost:1337/tables/fields/' + $rootScope.globals.currentUser.username +"?table=" + table;
+            var url = 'http://localhost:1337/databases/fields/' + $rootScope.globals.currentUser.username +"?table=" + table;
             $http.get(url).then(function (response) {
                 $scope.tableFields = response.data;
             }, function (response) {
@@ -26,7 +26,7 @@
             });
         };
 
-        var url = 'http://localhost:1337/tables/' + $rootScope.globals.currentUser.username;
+        var url = 'http://localhost:1337/databases/' + $rootScope.globals.currentUser.username;
         $http.get(url).then(function (response) {
             $scope.tables = response.data;
         }, function (response) {

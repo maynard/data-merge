@@ -164,7 +164,7 @@
 
                         console.log(data);
 
-                        var url = 'http://localhost:1337/transfer';
+                        var url = 'http://localhost:1337/files/import/' + $rootScope.globals.currentUser.username;
 
                         $http.post(url, data, config).then(function (response) {
                             // This function handles success

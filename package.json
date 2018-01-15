@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Merges multiple databases into one master searchable database",
   "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maynard/data-merge.git"
@@ -17,6 +15,11 @@
   },
   "homepage": "https://github.com/maynard/data-merge#readme",
   "dependencies": {
-    "angular-uuid": "0.0.4"
+    "angular-uuid": "0.0.4",
+    "gulp": "^4.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-minify-css": "^1.2.4"
   }
 }
