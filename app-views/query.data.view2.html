@@ -1,0 +1,141 @@
+
+<style>
+    .change-color {
+        transition: 0.4s all;
+    }
+    .change-color:hover, .change-color:focus, .change-color:active {
+        color: #fff;
+        background-color: #aaaaaa;
+        cursor: pointer;
+    }
+
+    .fld {
+        padding-left: 9px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+    }
+    .fldChoicesContainer {
+        border: 1px solid #aaaaaa;
+        margin: 0px;
+        padding: 0px;
+    }
+
+</style>
+
+
+<div class="row" ng-if="showSimple">
+    <div class="panel panel-primary">
+        <div class="panel-heading">Simple Query</div>
+        <div class="panel-body">
+            <h5>Simple Query - your search phrase will search against all loaded databases</h5>
+            <form name="dataForm">
+                <div class="form-group">
+
+                    <div class="col-md-6">
+                        <fieldset>
+                            <input id="input-search" class="form-control input-sm" name="mysearch" ng-keyup="enter($event)" placeholder="Search">
+                            </input>
+                        </fieldset>
+                    </div>
+
+                    <div class="col-md-2">
+                        {{term}}
+                    </div>
+
+                    <div class="col-md-2">
+                        <input type="button" class="btn btn-primary input-sm" ng-click="addNewChoice()" value="Search">
+                    </div>
+
+                    <div class="col-md-4">
+                        <h5><a href ng-click="toggleAdvanced()">Advanced query</a></h5>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div class="row" ng-if="showSimple">
+    <div class="panel panel-primary">
+        <div class="panel-body">
+
+            <div ng-repeat="result in searchResults">
+                <p><a href ng-click="viewResult(result)"><h5>{{result}}</h5></a></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-5">
+        <label for="selFld">Select field:</label>
+        <input id="selFld" class="form-control input-sm" data-ng-model="fldVal" ng-keyup="fldKeyed($event)">
+
+        <div ng-show="fldResults" ng-repeat="fld in fldResults" class="fldChoicesContainer">
+            <div ng-show="fldResults" href ng-click="selectFld(fld)" ng-repeat="fld in fldResults">
+                <div class="fld change-color" ng-mouseover="hoverActive=true" ng-mouseleave="hoverActive=false" ng-style="hoverActive ? {'background-color':social.color} : {}">
+                    <p><h5>{{fld}}</h5></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div>Advanced Query - define specific parameters</div>
+        </div>
+        <div class="panel-body">
+
+            <form name="dataForm">
+                <div class="form-group">
+
+                    <div>
+                        <fieldset>
+
+
+
+                            <div class="col-md-2">
+                                <label for="sel2">Where field:</label>
+                                <select class="form-control input-sm" ng-model="operator" id="sel2">
+                                    <option>Equals</option>
+                                    <option>Is Like</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-5">
+                                <label for="searchPhrase">Search Phrase:</label>
+                                <input class="form-control input-sm" type="text" ng-model="term"
+                                       id="searchPhrase" required></input>
+                            </div>
+
+
+                        </fieldset>
+                    </div>
+
+                </div>
+
+                <BR>
+                <div class="col-md-2">
+                    <input type="submit" class="btn btn-primary"
+                           value="Search"
+                           ng-click="submitForm()"
+                           ng-disabled="dataForm.fileURL.$dirty && dataForm.dbName.$invalid || myForm.delimiter.$dirty">
+                </div>
+                <div class="col-md-2">
+                    <h5><a href ng-click="toggleAdvanced()">Switch to simple query</a></h5>
+                </div>
+
+                </p>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+
